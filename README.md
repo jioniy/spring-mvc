@@ -1,2 +1,2 @@
 # spring-mvc
-Spring MVC - Back-end basic&practical techniques
+Spring MVC : Back-end Basic & Practical Techniques
