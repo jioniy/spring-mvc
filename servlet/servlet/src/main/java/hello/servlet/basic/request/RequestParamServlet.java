@@ -6,7 +6,7 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 
 /**
- * GET/POST Method
+ * GET/POST Method - Request Data : Query Parameter
  * 1. 파라미터 전송 기능
  * http://localhost:8080/request-param?username=hello&age=20
  *
