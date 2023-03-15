@@ -21,7 +21,7 @@ import java.util.Map;
  * Spring Wev MVC & Front controller
  *  - (Spring Web MVC 의 DispatcherServlet) <== Front Controller Pattern
  */
-@WebServlet(name = "frontControllerServletV1", urlPatterns = "/frontcontroller/v1/*")
+@WebServlet(name = "frontControllerServletV1", urlPatterns = "/front-controller/v1/*")
 public class FrontControllerServletV1 extends HttpServlet {
     private Map<String, ControllerV1> controllerMap = new HashMap<>();
     
