@@ -4,7 +4,12 @@ import hello.servlet.web.frontcontroller.MyView;
 import hello.servlet.web.frontcontroller.v3.controller.MemberFormControllerV3;
 import hello.servlet.web.frontcontroller.v3.controller.MemberListControllerV3;
 import hello.servlet.web.frontcontroller.v3.controller.MemberSaveControllerV3;
+import hello.servlet.web.frontcontroller.v4.controller.MemberFormControllerV4;
+import hello.servlet.web.frontcontroller.v4.controller.MemberListControllerV4;
+import hello.servlet.web.frontcontroller.v4.controller.MemberSaveControllerV4;
 import hello.servlet.web.frontcontroller.v5.adapter.ControllerV3HandlerAdapter;
+import hello.servlet.web.frontcontroller.v5.adapter.ControllerV4HandlerAdapter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,6 +23,7 @@ import java.util.Map;
 
 /**
  * Adapter를 적용한 front controller
+ * *인터페이스와 구현을 분리
  */
 @WebServlet(name = "frontControllerServletV5", urlPatterns = "/front-controller/v5/*")
 public class FrontControllerServletV5 extends HttpServlet {
@@ -25,7 +31,7 @@ public class FrontControllerServletV5 extends HttpServlet {
      * controller > handler
      * 매핑 정보의 값이 ControllerV3 , ControllerV4 같은 인터페이스에서 아무 값이나 받을 수 있는 Object 로 변경
      */
-    //private Map<String, ControllerV3> controllerMappingMap = new HashMap<>();
+    /*private Map<String, ControllerV3> controllerMappingMap = new HashMap<>();*/
     private final Map<String, Object> handlerMappingMap = new HashMap<>();//uri - handler(controller) mapping
     private final List<MyHandlerAdapter> handlerAdapters = new ArrayList<>();//adapter mapping
 
@@ -40,9 +46,17 @@ public class FrontControllerServletV5 extends HttpServlet {
                 MemberSaveControllerV3());
         handlerMappingMap.put("/front-controller/v5/v3/members", new
                 MemberListControllerV3());
+        //V4 추가
+        handlerMappingMap.put("/front-controller/v5/v4/members/new-form", new
+                MemberFormControllerV4());
+        handlerMappingMap.put("/front-controller/v5/v4/members/save", new
+                MemberSaveControllerV4());
+        handlerMappingMap.put("/front-controller/v5/v4/members", new
+                MemberListControllerV4());
     }
     private void initHandlerAdapters() {//initialize adapter mapping
         handlerAdapters.add(new ControllerV3HandlerAdapter());
+        handlerAdapters.add(new ControllerV4HandlerAdapter()); //V4를 처리할 수 있는 어댑터 추가
     }
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

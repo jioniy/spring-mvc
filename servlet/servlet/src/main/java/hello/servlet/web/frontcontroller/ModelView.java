@@ -3,7 +3,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * *****V3 Model & View
+ * *****V3, V4 Model & View
  * Controller 에서 서블릿에 종속적인 HttpServletRequest 객체를 제거함 --> 서블릿 종속 제거
  * View 이름을 함께 전달함 --> 뷰 이름 중복 제거 (경로. .jsp 형식 이름)
  * 

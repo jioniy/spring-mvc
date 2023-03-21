@@ -24,6 +24,7 @@ public class ControllerV3HandlerAdapter implements MyHandlerAdapter {
          * supports 함수로 controller 타입을 확인하기 때문에, 이에 대한 예외처리는 하지 않아도 됨.
          */
         ControllerV3 controller = (ControllerV3) handler;
+
         Map<String, String> paramMap = createParamMap(request);
         ModelView mv = controller.process(paramMap);
         return mv;
