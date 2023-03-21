@@ -25,14 +25,15 @@ public class FrontControllerServletV5 extends HttpServlet {
      * controller > handler
      * 매핑 정보의 값이 ControllerV3 , ControllerV4 같은 인터페이스에서 아무 값이나 받을 수 있는 Object 로 변경
      */
-    private final Map<String, Object> handlerMappingMap = new HashMap<>();
-    private final List<MyHandlerAdapter> handlerAdapters = new ArrayList<>();
+    //private Map<String, ControllerV3> controllerMappingMap = new HashMap<>();
+    private final Map<String, Object> handlerMappingMap = new HashMap<>();//uri - handler(controller) mapping
+    private final List<MyHandlerAdapter> handlerAdapters = new ArrayList<>();//adapter mapping
 
     public FrontControllerServletV5() {
         initHandlerMappingMap();//핸들러 매핑 초기화(controller 매핑 )
         initHandlerAdapters();//어댑터 초기화
     }
-    private void initHandlerMappingMap() {
+    private void initHandlerMappingMap() {//initialize uri - handler(controller) mapping
         handlerMappingMap.put("/front-controller/v5/v3/members/new-form", new
                 MemberFormControllerV3());
         handlerMappingMap.put("/front-controller/v5/v3/members/save", new
@@ -40,7 +41,7 @@ public class FrontControllerServletV5 extends HttpServlet {
         handlerMappingMap.put("/front-controller/v5/v3/members", new
                 MemberListControllerV3());
     }
-    private void initHandlerAdapters() {
+    private void initHandlerAdapters() {//initialize adapter mapping
         handlerAdapters.add(new ControllerV3HandlerAdapter());
     }
     @Override
@@ -48,12 +49,12 @@ public class FrontControllerServletV5 extends HttpServlet {
         
         Object handler = getHandler(request);/* request - handler(controller) 매핑 */
         
-        if (handler == null) {
+        if (handler == null) {/*uri 에 대한 controller 매핑 정보 없음*/
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
 
-        MyHandlerAdapter adapter = getHandlerAdapter(handler);
+        MyHandlerAdapter adapter = getHandlerAdapter(handler);/* handler(controller) - handler adapter 매핑 */
 
         ModelView mv = adapter.handle(request, response, handler);
 
@@ -61,10 +62,18 @@ public class FrontControllerServletV5 extends HttpServlet {
         view.render(mv.getModel(), request, response);
 
     }
+
+    /**
+     *  request - handler(controller) 매핑
+     *  */
     private Object getHandler(HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         return handlerMappingMap.get(requestURI);
     }
+
+    /**
+     *  handler(controller) - handler adapter 매핑
+     *  */
     private MyHandlerAdapter getHandlerAdapter(Object handler) {
         for (MyHandlerAdapter adapter : handlerAdapters) {
             if (adapter.supports(handler)) {
